@@ -17,7 +17,8 @@ export class AuthService {
     const findUser = await this.userService.getUserbymail(data.email);
     if (!findUser) {
       const newUser = await this.userService.createUser(data);
-      return newUser;
+      const payload = { username: newUser.username, sub: newUser.email };
+      return { access_token: this.jwtService.sign(payload) };
     } else {
       throw new BadRequestException(
         `User with email ${data.email} already exits`,
@@ -25,7 +26,7 @@ export class AuthService {
     }
   }
   login(user: any) {
-    const payload = { username: user.username, sub: user.email };
+    const payload = { userId: user.userId, sub: user.email };
 
     return {
       access_token: this.jwtService.sign(payload),

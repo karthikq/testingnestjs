@@ -17,4 +17,7 @@ export class userDto {
 
   @Expose()
   access_token: string;
+
+  @Expose()
+  userId: string;
 }

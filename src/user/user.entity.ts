@@ -1,3 +1,4 @@
+import { IsString } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -37,4 +38,7 @@ export class User {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @Column()
+  userId: string;
 }

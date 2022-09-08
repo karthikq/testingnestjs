@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { createUserDto } from './dto/create-user.dto';
@@ -13,7 +14,8 @@ import { User } from './user.entity';
 export class UserService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
   createUser(body: createUserDto) {
-    const newUser = this.repo.create(body);
+    let userId = uuidv4();
+    const newUser = this.repo.create({ ...body, userId });
     return this.repo.save(newUser);
   }
   async getUser(id: number) {
@@ -31,11 +33,19 @@ export class UserService {
 
     return users;
   }
+  async getUserbyId(id: string) {
+    const user = await this.repo.findOne({ where: { userId: id } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
   async updateUser(id: number, body: UpdateUserDto) {
     const user = await this.repo.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
+
     Object.assign(user, body);
 
     return this.repo.save(user);
