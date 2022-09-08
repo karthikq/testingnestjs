@@ -32,8 +32,6 @@ export class AuthController {
   @UseGuards(JWTAuthGuard)
   @Get('/user')
   getUserProfile(@Request() req: any) {
-    console.log(req.user);
-
     return req.user;
   }
 }
