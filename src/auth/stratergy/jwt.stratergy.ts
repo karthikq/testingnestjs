@@ -15,7 +15,7 @@ export class JWtStratergy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
   async validate(payload: any) {
-    const user = this.userService.getUserbymail(payload.sub);
+    const user = this.userService.getUserbyId(payload.userId);
     if (!user) {
       throw new BadRequestException('token expired');
     }
