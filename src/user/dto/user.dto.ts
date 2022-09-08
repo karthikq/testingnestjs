@@ -14,4 +14,7 @@ export class userDto {
 
   @Expose()
   created_at: string;
+
+  @Expose()
+  access_token: string;
 }

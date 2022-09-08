@@ -42,9 +42,7 @@ export class UserService {
   }
   async getUserbymail(email: string) {
     const getUser = await this.repo.findOne({ where: { email } });
-    if (getUser) {
-      throw new BadRequestException(`User with ${email} already exits`);
-    }
+
     return getUser;
   }
 }
