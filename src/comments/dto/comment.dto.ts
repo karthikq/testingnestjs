@@ -2,6 +2,7 @@ import { Exclude, Expose, Transform } from 'class-transformer';
 import { Posts } from '../../posts/post.entity';
 import { Likes } from '../../likes/likes.entity';
 import { User } from '../../user/user.entity';
+import { Comments } from '../comments.entity';
 
 export class CommetDto {
   @Expose()
@@ -48,6 +49,9 @@ export class CommetDto {
 
   @Expose()
   likes: Likes[];
+
+  @Expose()
+  comments: Comments[];
 
   @Exclude()
   password: string;

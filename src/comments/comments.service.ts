@@ -30,4 +30,25 @@ export class CommentsService {
 
     return updatedPost;
   }
+
+  async EditComment(
+    updatedmessage: string,
+    commentId: number,
+    postId: number,
+    user: User,
+  ) {
+    const post = await this.postSerive.getpost(postId);
+    if (!post) {
+      throw new BadRequestException('Post not found');
+    }
+    await this.repocomments
+      .createQueryBuilder()
+      .update(Comments)
+      .set({ message: updatedmessage })
+      .where('id = :id', { id: commentId })
+      .execute();
+
+    const updatedPost = await this.postSerive.getpost(postId);
+    return updatedPost;
+  }
 }
