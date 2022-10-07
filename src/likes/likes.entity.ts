@@ -14,10 +14,8 @@ export class Likes {
   id: number;
 
   @ManyToOne(() => User, (user) => user.likes)
-  @JoinColumn({ name: 'userId' })
   user: User;
 
   @ManyToOne(() => Posts, (post) => post.likes)
-  @JoinColumn({ name: 'postId' })
   post: Posts;
 }

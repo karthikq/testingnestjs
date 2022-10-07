@@ -8,8 +8,9 @@ import { LikesModule } from '../likes/likes.module';
 import { Likes } from '../likes/likes.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Posts,Likes]), UserModule,LikesModule],
+  imports: [TypeOrmModule.forFeature([Posts, Likes]), UserModule],
   providers: [PostsService],
   controllers: [PostsController],
+  exports: [PostsService],
 })
 export class PostsModule {}

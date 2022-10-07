@@ -21,7 +21,7 @@ export class UserService {
   async getUser(id: number) {
     const user = await this.repo.findOne({
       where: { id },
-      relations: ['posts'],
+      relations: ['posts', 'likes'],
     });
 
     if (!user) {

@@ -9,7 +9,8 @@ import { PostsModule } from './posts/posts.module';
 import { Posts } from './posts/post.entity';
 import { LikesModule } from './likes/likes.module';
 import { Likes } from './likes/likes.entity';
- 
+import { CommentsModule } from './comments/comments.module';
+import { Comments } from './comments/comments.entity';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { Likes } from './likes/likes.entity';
           username: config.get('DB_USERNAME'),
           password: config.get('DB_PASSWORD'),
           database: config.get('DB_NAME'),
-          entities: [User, Posts,Likes],
+          entities: [User, Posts, Likes, Comments],
           synchronize: true,
         };
       },
@@ -36,6 +37,7 @@ import { Likes } from './likes/likes.entity';
     AuthModule,
     PostsModule,
     LikesModule,
+    CommentsModule,
   ],
 })
 export class AppModule {}

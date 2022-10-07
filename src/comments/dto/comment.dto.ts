@@ -1,10 +1,12 @@
 import { Exclude, Expose, Transform } from 'class-transformer';
-import { Comments } from '../../comments/comments.entity';
+import { Posts } from '../../posts/post.entity';
 import { Likes } from '../../likes/likes.entity';
 import { User } from '../../user/user.entity';
-import { Posts } from '../post.entity';
 
-export class PostDto {
+export class CommetDto {
+  @Expose()
+  message: string;
+
   @Expose()
   title: string;
 
@@ -31,6 +33,7 @@ export class PostDto {
 
   @Expose()
   username: string;
+
   @Expose()
   email: string;
 
@@ -45,9 +48,6 @@ export class PostDto {
 
   @Expose()
   likes: Likes[];
-
-  @Expose()
-  comments: Comments[];
 
   @Exclude()
   password: string;

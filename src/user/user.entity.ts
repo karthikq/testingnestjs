@@ -11,7 +11,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Likes } from '../likes/likes.entity';
- 
+import { Comments } from '../comments/comments.entity';
 
 @Entity({
   name: 'Userslist',
@@ -51,6 +51,9 @@ export class User {
   @OneToMany(() => Posts, (posts) => posts.user)
   posts: Posts[];
 
-  @OneToMany(() => Likes, (likes) =>likes.user)
+  @OneToMany(() => Likes, (likes) => likes.user)
   likes: Likes[];
+
+  @OneToMany(() => Comments, (comments) => comments.user)
+  comments: Comments[];
 }

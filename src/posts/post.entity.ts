@@ -11,7 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Likes } from '../likes/likes.entity';
- 
+import { Comments } from '../comments/comments.entity';
 
 @Entity()
 export class Posts {
@@ -45,7 +45,9 @@ export class Posts {
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
 
-  @OneToMany(() => Likes, (likes) =>likes.post)
+  @OneToMany(() => Likes, (likes) => likes.post)
   likes: Likes[];
 
+  @OneToMany(() => Comments, (comments) => comments.post)
+  comments: Comments[];
 }

@@ -16,6 +16,7 @@ import { PostDto } from './dto/post.dto';
 import { PostsService } from './posts.service';
 
 @Controller('post')
+@Serialize(PostDto)
 export class PostsController {
   constructor(private postService: PostsService) {}
 
@@ -30,11 +31,5 @@ export class PostsController {
   @Get('/:id')
   getPost(@Param('id') id: string) {
     return this.postService.getpost(parseInt(id));
-  }
-
-  @UseGuards(JWTAuthGuard)
-  @Patch('/:id')
-  likePost(@Param('id') id: string, @Request() req: any) {
-    return this.postService.likePost(parseInt(id), req.user);
   }
 }

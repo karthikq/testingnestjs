@@ -1,4 +1,6 @@
 import { Expose, Transform } from 'class-transformer';
+import { Comments } from '../../comments/comments.entity';
+import { Likes } from '../../likes/likes.entity';
 import { Posts } from '../../posts/post.entity';
 
 export class userDto {
@@ -26,5 +28,14 @@ export class userDto {
   title: string;
 
   @Expose()
+  desp: string;
+
+  @Expose()
   posts: Posts[];
+
+  @Expose()
+  likes: Likes[];
+
+  @Expose()
+  comments: Comments[];
 }
