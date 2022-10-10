@@ -18,17 +18,21 @@ export class AuthService {
     if (!findUser) {
       const newUser = await this.userService.createUser(data);
       const payload = { username: newUser.username, sub: newUser.email };
-      return { access_token: this.jwtService.sign(payload) };
+
+      return { newUser, access_token: this.jwtService.sign(payload) };
     } else {
       throw new BadRequestException(
         `User with email ${data.email} already exits`,
       );
     }
   }
-  login(user: any) {
+  async login(user: any) {
     const payload = { userId: user.userId, sub: user.email };
+    console.log(user);
 
     return {
+      ...user,
+      comments: user.comments,
       access_token: this.jwtService.sign(payload),
     };
   }

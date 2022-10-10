@@ -9,19 +9,59 @@ import { Repository } from 'typeorm';
 import { createUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
-  createUser(body: createUserDto) {
+  async createUser(body: createUserDto) {
     let userId = uuidv4();
-    const newUser = this.repo.create({ ...body, userId });
+    const hashedPassword = await bcrypt.hash(body.password, 10);
+
+    const newUser = this.repo.create({
+      email: body.email,
+      password: hashedPassword,
+      username: body.username,
+      userId,
+    });
     return this.repo.save(newUser);
   }
+
+  async CheckCredentials(email: string, password: string) {
+    const resp = await this.repo
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email =:email', { email })
+      .getOne();
+
+    const user = await this.repo.findOne({
+      where: { email },
+      relations: {
+        posts: true,
+        likes: { post: true, user: true },
+        comments: { post: true, user: true },
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const checkPassword = await bcrypt.compare(password, resp.password);
+    if (!checkPassword) {
+      throw new BadRequestException("Password doesn't match");
+    }
+    return user;
+  }
+
   async getUser(id: number) {
     const user = await this.repo.findOne({
       where: { id },
-      relations: ['posts', 'likes'],
+      relations: {
+        posts: true,
+        likes: { post: true, user: true },
+        comments: { post: true, user: true },
+      },
     });
 
     if (!user) {
@@ -44,7 +84,11 @@ export class UserService {
 
     const user = await this.repo.findOne({
       where: { userId: id },
-      relations: { posts: true },
+      relations: {
+        posts: true,
+        likes: { post: true, user: true },
+        comments: { post: true, user: true },
+      },
     });
 
     if (!user) {
@@ -66,20 +110,15 @@ export class UserService {
     if (!email) {
       throw new NotFoundException('Email not found');
     }
-    const getUser = await this.repo.findOne({ where: { email } });
+    const getUser = await this.repo.findOne({
+      where: { email },
+      relations: {
+        posts: true,
+        likes: { post: true, user: true },
+        comments: { post: true, user: true },
+      },
+    });
 
     return getUser;
-  }
-  async updatePost(post, user) {
-    const userExists = await this.repo.findOne({
-      where: { id: user.id },
-      relations: ['posts'],
-    });
-    if (!userExists) {
-      throw new NotFoundException('User not found');
-    }
-
-    userExists.posts = [...userExists.posts, post];
-    return this.repo.save(userExists);
   }
 }

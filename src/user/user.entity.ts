@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { Likes } from '../likes/likes.entity';
 import { Comments } from '../comments/comments.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({
   name: 'Userslist',
@@ -26,7 +27,7 @@ export class User {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column({
