@@ -52,9 +52,6 @@ export class PostsService {
     if (!posts.length) {
       throw new BadRequestException('No posts found');
     }
-    return {
-      posts,
-      comments: posts[0].comments,
-    };
+    return  posts
   }
 }
