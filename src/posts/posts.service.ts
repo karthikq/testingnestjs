@@ -15,10 +15,13 @@ export class PostsService {
     private userService: UserService,
   ) {}
   async createPost(body: CreatePostDto, user: User) {
+    console.log(body);
+
     const newPost = await this.repo.create({
       title: body.title,
       desp: body.desp,
       postId: uuidv4(),
+      images: body.images,
       user: user,
     });
 
@@ -52,6 +55,6 @@ export class PostsService {
     if (!posts.length) {
       throw new BadRequestException('No posts found');
     }
-    return  posts
+    return posts;
   }
 }

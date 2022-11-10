@@ -32,6 +32,9 @@ export class Posts {
   })
   date: string;
 
+  @Column('text', { array: true, default: [] })
+  images: string[];
+
   @CreateDateColumn({
     default: () => 'CURRENT_TIMESTAMP',
   })

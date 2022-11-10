@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsString,
   IsUUID,
   Max,
@@ -16,4 +17,7 @@ export class CreatePostDto {
   @IsString()
   @MaxLength(200)
   desp: string;
+
+  @IsArray()
+  images: string[];
 }
