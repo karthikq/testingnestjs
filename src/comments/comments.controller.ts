@@ -16,7 +16,6 @@ import { CommetDto } from './dto/comment.dto';
 import { CreateComment } from './dto/create-comment.dto';
 
 @Controller('comment')
-@Serialize(CommetDto)
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
 

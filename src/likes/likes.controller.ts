@@ -5,7 +5,6 @@ import { LikeDto } from './dto/likes.dto';
 import { LikesService } from './likes.service';
 
 @Controller('like')
-@Serialize(LikeDto)
 export class LikesController {
   constructor(private likeservice: LikesService) {}
   @UseGuards(JWTAuthGuard)

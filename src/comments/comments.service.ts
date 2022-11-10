@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Posts } from 'src/posts/post.entity';
-import { PostsService } from 'src/posts/posts.service';
+import { Posts } from '../posts/post.entity';
+import { PostsService } from '../posts/posts.service';
 import { Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 import { Comments } from './comments.entity';
@@ -27,6 +27,7 @@ export class CommentsService {
     await this.repocomments.save(newComment);
 
     const updatedPost = await this.postSerive.getpost(postId);
+    console.log(updatedPost);
 
     return updatedPost;
   }
