@@ -10,6 +10,9 @@ export class Comments {
   @Column()
   message: string;
 
+  @Column({ default: new Date() })
+  date: Date;
+
   @ManyToOne(() => User, (user) => user.comments)
   user: User;
 

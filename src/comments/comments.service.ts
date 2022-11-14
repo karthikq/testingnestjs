@@ -22,6 +22,7 @@ export class CommentsService {
       message,
       user: user,
       post: post,
+      date: new Date(),
     });
 
     await this.repocomments.save(newComment);
