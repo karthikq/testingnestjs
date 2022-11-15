@@ -39,12 +39,4 @@ export class UserController {
   getUser(@Param('id') id: string) {
     return this.userService.getUser(id);
   }
-
-  @UseGuards(JWTAuthGuard)
-  @Get('/auth')
-  getUserdata(@Request() req: any) {
-    console.log(req.user);
-
-    return req.user;
-  }
 }
