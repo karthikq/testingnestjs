@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { JWTAuthGuard } from '../auth/jwt-auth.guard';
 import { Serialize } from '../interceptors/transform.interceptor';
@@ -36,6 +37,14 @@ export class UserController {
   @UseGuards(JWTAuthGuard)
   @Get('/:id')
   getUser(@Param('id') id: string) {
-    return this.userService.getUser(parseInt(id));
+    return this.userService.getUser(id);
+  }
+
+  @UseGuards(JWTAuthGuard)
+  @Get('/auth')
+  getUserdata(@Request() req: any) {
+    console.log(req.user);
+
+    return req.user;
   }
 }

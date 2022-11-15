@@ -64,9 +64,9 @@ export class UserService {
     return user;
   }
 
-  async getUser(id: number) {
+  async getUser(id: string) {
     const user = await this.repo.findOne({
-      where: { id },
+      where: { email: id },
       relations: {
         posts: true,
         likes: { post: true, user: true },
