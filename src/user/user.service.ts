@@ -22,9 +22,19 @@ export class UserService {
       email: body.email,
       password: hashedPassword,
       username: body.username,
+      url: body.url,
       userId,
     });
-    return this.repo.save(newUser);
+    await this.repo.save(newUser);
+    const user = await this.repo.findOne({
+      where: { email: body.email },
+      relations: {
+        posts: true,
+        likes: { post: true, user: true },
+        comments: { post: true, user: true },
+      },
+    });
+    return user;
   }
 
   async CheckCredentials(email: string, password: string) {

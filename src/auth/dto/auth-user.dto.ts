@@ -9,6 +9,9 @@ export class authDto {
   email: string;
 
   @IsString()
-  @MinLength(5, { message: 'password is too short' })
+  @MinLength(2, { message: 'password is too short' })
   password: string;
+
+  @IsString()
+  url: string;
 }

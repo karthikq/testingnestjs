@@ -10,4 +10,6 @@ export class createUserDto {
   @IsString()
   @MinLength(5, { message: 'password is too short' })
   password: string;
+
+  url: string;
 }

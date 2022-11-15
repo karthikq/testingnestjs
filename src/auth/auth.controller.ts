@@ -15,7 +15,6 @@ import { JWTAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller('auth')
-@Serialize(userDto)
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Post('/signup')

@@ -14,10 +14,13 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
   async singup(data: authDto) {
+    console.log(data);
+
     const findUser = await this.userService.getUserbymail(data.email);
     if (!findUser) {
       const newUser = await this.userService.createUser(data);
       const payload = { username: newUser.username, sub: newUser.email };
+      console.log(newUser);
 
       return { newUser, access_token: this.jwtService.sign(payload) };
     } else {

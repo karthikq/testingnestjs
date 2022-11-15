@@ -41,7 +41,7 @@ export class User {
   created_at: Date;
 
   @Column({ default: 'null' })
-  profileUrl: string;
+  url: string;
 
   @UpdateDateColumn({
     default: () => 'CURRENT_TIMESTAMP',
