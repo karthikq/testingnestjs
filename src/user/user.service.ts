@@ -131,4 +131,17 @@ export class UserService {
 
     return getUser;
   }
+
+  async checkUserName(username: string) {
+    if (!username) {
+      throw new NotFoundException('User is not valid');
+    }
+    const checkName = await this.repo.findOne({ where: { username } });
+
+    if (checkName) {
+      throw new BadRequestException('username already exists');
+    } else {
+      return false;
+    }
+  }
 }

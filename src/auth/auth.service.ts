@@ -15,11 +15,17 @@ export class AuthService {
   ) {}
   async singup(data: authDto) {
     const findUser = await this.userService.getUserbymail(data.email);
-    if (!findUser) {
-      const newUser = await this.userService.createUser(data);
-      const payload = { username: newUser.username, sub: newUser.email };
 
-      return { newUser, access_token: this.jwtService.sign(payload) };
+    if (!findUser) {
+      const checkUserName = await this.userService.checkUserName(data.username);
+      if (checkUserName) {
+        throw new BadRequestException(`username already exits`);
+      } else {
+        const newUser = await this.userService.createUser(data);
+        const payload = { username: newUser.username, sub: newUser.email };
+
+        return { newUser, access_token: this.jwtService.sign(payload) };
+      }
     } else {
       throw new BadRequestException(
         `User with email ${data.email} already exits`,
