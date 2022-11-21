@@ -12,4 +12,6 @@ export class createUserDto {
   password: string;
 
   url: string;
+
+  id: string;
 }

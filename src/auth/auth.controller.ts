@@ -5,6 +5,8 @@ import {
   Get,
   Request,
   UseGuards,
+  Req,
+  Response,
 } from '@nestjs/common';
 import { Serialize } from '../interceptors/transform.interceptor';
 import { userDto } from '../user/dto/user.dto';
@@ -13,6 +15,7 @@ import { AuthService } from './auth.service';
 import { authDto } from './dto/auth-user.dto';
 import { JWTAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
+import { GoogleAuthGuard } from './google-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -32,5 +35,14 @@ export class AuthController {
   @Get('/user')
   getUserProfile(@Request() req: any) {
     return req.user;
+  }
+  @UseGuards(GoogleAuthGuard)
+  @Get('/google/login')
+  async googleLogin(@Request() req: any) {}
+
+  @UseGuards(GoogleAuthGuard)
+  @Get('/google/cb')
+  async googleRedirect(@Request() req: any, @Response() res: any) {
+    return this.authService.googleLogin(req.user, res);
   }
 }

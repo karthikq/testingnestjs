@@ -34,12 +34,28 @@ export class AuthService {
   }
   async login(user: any) {
     const payload = { userId: user.userId, sub: user.email };
-    console.log(user);
 
     return {
       ...user,
       comments: user.comments,
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async googleLogin(user: any, res: any) {
+    if (!user) {
+      return 'User not found';
+    }
+    const payload = { userId: user.id, sub: user.email };
+
+    const checkGoogleUser = await this.userService.getUserbyId(user.id);
+
+    const token = this.jwtService.sign(payload);
+
+    if (!checkGoogleUser) {
+      await this.userService.createUser(user);
+    }
+
+    return res.redirect('http://localhost:3000/?token=' + token);
   }
 }

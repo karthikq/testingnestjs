@@ -10,13 +10,16 @@ import { createUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
+import { brotliCompressSync } from 'zlib';
 
 @Injectable()
 export class UserService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
   async createUser(body: createUserDto) {
-    let userId = uuidv4();
-    const hashedPassword = await bcrypt.hash(body.password, 10);
+    let userId = body.id ? body.id : uuidv4();
+    const hashedPassword = body.password
+      ? await bcrypt.hash(body.password, 10)
+      : '';
 
     const newUser = this.repo.create({
       email: body.email,
@@ -101,9 +104,9 @@ export class UserService {
       },
     });
 
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+    // if (!user) {
+    //   throw new NotFoundException('User not found');
+    // }
     return user;
   }
   async updateUser(id: number, body: UpdateUserDto) {

@@ -16,4 +16,6 @@ export class authDto {
 
   @IsString()
   url: string;
+
+  id: string;
 }
