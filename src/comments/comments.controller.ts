@@ -6,6 +6,7 @@ import {
   UseGuards,
   Request,
   Body,
+  Delete,
   Query,
 } from '@nestjs/common';
 import { JWTAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -45,6 +46,22 @@ export class CommentsController {
       body.message,
       parseInt(id),
       query.commentId,
+      req.user,
+    );
+  }
+
+  @UseGuards(JWTAuthGuard)
+  @Delete('/post/delete/:id')
+  deleteComment(
+    @Param('id') id: string,
+    @Query() query: any,
+    @Request() req: any,
+  ) {
+    console.log(id, query);
+
+    return this.commentsService.deleteComment(
+      query.commentId,
+      parseInt(id),
       req.user,
     );
   }

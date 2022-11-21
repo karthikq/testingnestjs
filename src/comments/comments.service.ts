@@ -43,14 +43,44 @@ export class CommentsService {
     if (!post) {
       throw new BadRequestException('Post not found');
     }
-    await this.repocomments
-      .createQueryBuilder()
-      .update(Comments)
-      .set({ message: updatedmessage })
-      .where('id = :id', { id: commentId })
-      .execute();
+    if (post.user.userId === user.userId) {
+      await this.repocomments
+        .createQueryBuilder()
+        .update(Comments)
+        .set({ message: updatedmessage })
+        .where('id = :id', { id: commentId })
+        .execute();
 
-    const updatedPost = await this.postSerive.getpost(postId);
-    return updatedPost;
+      const updatedPost = await this.postSerive.getpost(postId);
+      return updatedPost;
+    } else {
+      throw new BadRequestException('User not allowed to edit');
+    }
+  }
+
+  async deleteComment(commentId: string, postId: number, user: User) {
+    const post = await this.postSerive.getpost(postId);
+    if (!post) {
+      throw new BadRequestException('Post not found');
+    }
+    const checkUserId = post.comments.find((el) => el.id == commentId);
+
+    if (checkUserId) {
+      if (checkUserId.user.userId === user.userId) {
+        await this.repocomments
+          .createQueryBuilder()
+          .delete()
+          .from(Comments)
+          .where('id =:id', { id: commentId })
+          .execute();
+
+        const updatedPost = await this.postSerive.getpost(postId);
+        return updatedPost;
+      } else {
+        throw new BadRequestException('User not allowed to delete');
+      }
+    } else {
+      throw new BadRequestException('Comment not found');
+    }
   }
 }
