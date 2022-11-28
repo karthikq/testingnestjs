@@ -16,6 +16,7 @@ import { authDto } from './dto/auth-user.dto';
 import { JWTAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
 import { GoogleAuthGuard } from './google-auth.guard';
+import { FacebookAuthGaurd } from './facebook-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -44,5 +45,15 @@ export class AuthController {
   @Get('/google/cb')
   async googleRedirect(@Request() req: any, @Response() res: any) {
     return this.authService.googleLogin(req.user, res);
+  }
+
+  @UseGuards(FacebookAuthGaurd)
+  @Get('/facebook/login')
+  async facebookLogin(@Request() req: any) {}
+
+  @UseGuards(FacebookAuthGaurd)
+  @Get('/facebook/redirect')
+  async facebookRedirect(@Request() req: any, @Response() res: any) {
+    return this.authService.facebookLogin(req.user, res);
   }
 }

@@ -58,4 +58,21 @@ export class AuthService {
 
     return res.redirect('http://localhost:3000/?token=' + token);
   }
+
+  async facebookLogin(user: any, res: any) {
+    if (!user) {
+      return 'User not found';
+    }
+    const payload = { userId: user.id, sub: user.email };
+
+    const checkFacebookUser = await this.userService.getUserbyId(user.id);
+
+    const token = this.jwtService.sign(payload);
+
+    if (!checkFacebookUser) {
+      await this.userService.createUser(user);
+    }
+
+    return res.redirect('http://localhost:3000/?token=' + token);
+  }
 }
