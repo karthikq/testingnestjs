@@ -5,7 +5,6 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
 import { BadRequestException } from '@nestjs/common';
- 
 
 @Injectable()
 export class JWtStratergy extends PassportStrategy(Strategy, 'jwt') {
@@ -16,9 +15,7 @@ export class JWtStratergy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
   async validate(payload: any) {
- 
- 
-    const user = await this.userService.getUserbymail(payload.sub)
+    const user = await this.userService.getUserbyId(payload.userId);
 
     if (!user) {
       throw new BadRequestException('Invalid token');
