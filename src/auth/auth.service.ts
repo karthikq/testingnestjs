@@ -22,7 +22,11 @@ export class AuthService {
         throw new BadRequestException(`username already exits`);
       } else {
         const newUser = await this.userService.createUser(data);
-        const payload = { username: newUser.username, sub: newUser.email };
+        const payload = {
+          username: newUser.username,
+          sub: newUser.email,
+          userId: newUser.userId,
+        };
 
         return { newUser, access_token: this.jwtService.sign(payload) };
       }
@@ -33,6 +37,8 @@ export class AuthService {
     }
   }
   async login(user: any) {
+    console.log(user);
+
     const payload = { userId: user.userId, sub: user.email };
 
     return {
