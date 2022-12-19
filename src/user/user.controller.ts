@@ -34,7 +34,7 @@ export class UserController {
   allUser() {
     return this.userService.getAllusers();
   }
-  @UseGuards(JWTAuthGuard)
+ 
   @Get('/:id')
   getUser(@Param('id') id: string) {
     return this.userService.getUser(id);
