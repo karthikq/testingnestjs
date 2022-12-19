@@ -109,15 +109,19 @@ export class UserService {
     // }
     return user;
   }
-  async updateUser(id: number, body: UpdateUserDto) {
-    const user = await this.repo.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
+  async updateUser(id: string, body: UpdateUserDto, loggedUser: any) {
+    const user = await this.repo.findOne({ where: { userId: id } });
+    if (loggedUser.userId === user.userId) {
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+
+      Object.assign(user, body);
+
+      return this.repo.save(user);
+    } else {
+      return new BadRequestException('User not allowed');
     }
-
-    Object.assign(user, body);
-
-    return this.repo.save(user);
   }
   async getUserbymail(email: string) {
     if (!email) {

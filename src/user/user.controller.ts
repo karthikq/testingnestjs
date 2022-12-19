@@ -22,8 +22,12 @@ export class UserController {
 
   @Patch('/:id')
   @UseGuards(JWTAuthGuard)
-  updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
-    return this.userService.updateUser(parseInt(id), body);
+  updateUser(
+    @Param('id') id: string,
+    @Body() body: UpdateUserDto,
+    @Request() req: any,
+  ) {
+    return this.userService.updateUser(id, body, req.user);
   }
   @Post('/')
   createUser(@Body() body: createUserDto) {
@@ -34,7 +38,7 @@ export class UserController {
   allUser() {
     return this.userService.getAllusers();
   }
- 
+
   @Get('/:id')
   getUser(@Param('id') id: string) {
     return this.userService.getUser(id);
