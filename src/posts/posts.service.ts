@@ -23,6 +23,8 @@ export class PostsService {
       postId: uuidv4(),
       images: body.images,
       user: user,
+      likes: [],
+      comments: [],
     });
 
     return this.repo.save(newPost);
