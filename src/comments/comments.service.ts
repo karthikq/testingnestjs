@@ -28,7 +28,6 @@ export class CommentsService {
     await this.repocomments.save(newComment);
 
     const updatedPost = await this.postSerive.getpost(postId);
-    console.log(updatedPost);
 
     return updatedPost;
   }

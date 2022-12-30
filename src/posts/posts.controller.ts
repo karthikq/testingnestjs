@@ -7,6 +7,7 @@ import {
   Get,
   Param,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { JWTAuthGuard } from '../auth/jwt-auth.guard';
 
@@ -31,5 +32,11 @@ export class PostsController {
   @Get('/:id')
   getPost(@Param('id') id: string) {
     return this.postService.getpost(parseInt(id));
+  }
+
+  @Delete('/:id')
+  @UseGuards(JWTAuthGuard)
+  deletePost(@Param('id') id: string, @Request() req: any) {
+    return this.postService.deletePost(id, req.user);
   }
 }
