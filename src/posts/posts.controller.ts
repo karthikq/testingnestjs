@@ -13,6 +13,7 @@ import { JWTAuthGuard } from '../auth/jwt-auth.guard';
 
 import { Serialize } from '../interceptors/transform.interceptor';
 import { CreatePostDto } from './dto/create-post.dto';
+import { editPostDto } from './dto/edit-post.dto';
 import { PostDto } from './dto/post.dto';
 import { PostsService } from './posts.service';
 
@@ -38,5 +39,12 @@ export class PostsController {
   @UseGuards(JWTAuthGuard)
   deletePost(@Param('id') id: string, @Request() req: any) {
     return this.postService.deletePost(id, req.user);
+  }
+
+  
+  @Patch('/:id')
+  @UseGuards(JWTAuthGuard)
+  editPost(@Param('id') id: string, @Request() req: any,@Body() body:editPostDto) {
+    return this.postService.editPost(id, req.user,body);
   }
 }

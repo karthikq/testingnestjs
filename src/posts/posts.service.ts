@@ -12,6 +12,7 @@ import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { Likes } from '../likes/likes.entity';
 import { Comments } from 'src/comments/comments.entity';
+import { editPostDto } from './dto/edit-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -23,8 +24,8 @@ export class PostsService {
   ) {}
   async createPost(body: CreatePostDto, user: User) {
     const newPost = await this.repo.create({
-      title: body.title,
-      desp: body.desp,
+      title: body.title.trim(),
+      desp: body.desp.trim(),
       postId: uuidv4(),
       images: body.images,
       user: user,
@@ -86,6 +87,38 @@ export class PostsService {
 
       const updatePost = await this.repo.delete({ postId: id });
       console.log(updatePost);
+    } else {
+      throw new BadRequestException('Not allowed');
+    }
+  }
+
+  async editPost(id: string, user: any, data: editPostDto) {
+    const findPost = await this.repo.findOne({
+      where: { postId: id },
+      relations: { user: true },
+    });
+
+    if (!findPost) {
+      throw new NotFoundException('Post not found');
+    }
+
+    if (findPost.user.userId === user.userId) {
+      await this.repo
+        .createQueryBuilder('post')
+        .update<Posts>(Posts, { title: data.title.trim(), images: data.images })
+        .where('postId = :id', { id })
+        .execute();
+
+      const updatedPost = await this.repo.findOne({
+        where: { postId: id },
+        relations: {
+          user: true,
+          likes: { user: true },
+          comments: { user: true },
+        },
+      });
+
+      return updatedPost;
     } else {
       throw new BadRequestException('Not allowed');
     }
