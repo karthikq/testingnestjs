@@ -31,6 +31,7 @@ export class PostsService {
       user: user,
       likes: [],
       comments: [],
+      date:new Date(),
     });
 
     return this.repo.save(newPost);

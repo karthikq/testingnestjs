@@ -28,9 +28,9 @@ export class Posts {
   postId: string;
 
   @Column({
-    default: new Date().toLocaleDateString(),
+    default: new Date(),
   })
-  date: string;
+  date: Date;
 
   @Column('text', { array: true, default: [] })
   images: string[];

@@ -31,7 +31,7 @@ export class User {
   password: string;
 
   @Column({
-    default: new Date().toLocaleDateString(),
+    default: new Date().toLocaleTimeString(),
   })
   date: string;
 
