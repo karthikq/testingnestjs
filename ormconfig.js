@@ -10,7 +10,6 @@ switch (process.env.NODE_ENV) {
       host: 'localhost',
       port: 5432,
       entities: ['**/*.entity.js'],
-      url: 'postgres://cdiiyvhh:4PmPCoFI7s-9XMDUXMEQyeNQj1btoIHt@snuffleupagus.db.elephantsql.com/cdiiyvhh',
     });
     break;
   case 'production':
