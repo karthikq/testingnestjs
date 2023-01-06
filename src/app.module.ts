@@ -10,11 +10,8 @@ import { Posts } from './posts/post.entity';
 import { LikesModule } from './likes/likes.module';
 import { Likes } from './likes/likes.entity';
 import { CommentsModule } from './comments/comments.module';
-import { Comments } from './comments/comments.entity';
- 
 
-import dbConfig from '../ormconfig.js';
- 
+import { TypeOrmConfigService } from './config/typeorm.config';
 
 @Module({
   imports: [
@@ -22,7 +19,9 @@ import dbConfig from '../ormconfig.js';
       isGlobal: true,
       envFilePath: `.env.development`,
     }),
-    TypeOrmModule.forRoot(dbConfig),
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmConfigService,
+    }),
     UserModule,
     AuthModule,
     PostsModule,
