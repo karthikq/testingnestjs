@@ -11,6 +11,10 @@ import { LikesModule } from './likes/likes.module';
 import { Likes } from './likes/likes.entity';
 import { CommentsModule } from './comments/comments.module';
 import { Comments } from './comments/comments.entity';
+ 
+
+import dbConfig from '../ormconfig.js';
+ 
 
 @Module({
   imports: [
@@ -18,20 +22,7 @@ import { Comments } from './comments/comments.entity';
       isGlobal: true,
       envFilePath: `.env.development`,
     }),
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          type: 'postgres',
-          host: config.get('DB_HOST'),
-          port: config.get<number>('DB_PORT'),
-          database: config.get('DB_NAME'),
-          entities: [User, Posts, Likes, Comments],
-          synchronize: true,
-          url: config.get('DB_URL'),
-        };
-      },
-    }),
+    TypeOrmModule.forRoot(dbConfig),
     UserModule,
     AuthModule,
     PostsModule,
