@@ -10,7 +10,10 @@ export class FacebookStratergy extends PassportStrategy(Strategy, 'facebook') {
       clientID: config.get('FB_CLIENT_ID'),
       clientSecret: config.get('FB_CLIENT_SECRET'),
       scope: 'email',
-      callbackURL: 'http://localhost:5000/auth/facebook/redirect',
+      callbackURL:
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:5000/auth/facebook/redirect'
+          : 'https://testingnestjs2.onrender.com/auth/facebook/redirect',
       profileFields: ['id', 'displayName', 'photos', 'email'],
     });
   }
