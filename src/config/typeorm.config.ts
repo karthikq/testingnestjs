@@ -11,14 +11,28 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   constructor(private configService: ConfigService) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    return {
-      type: 'postgres',
-      database: 'test',
-      host: 'localhost',
-      port: 5432,
-      entities: [User, Posts, Comments, Likes],
-      url: this.configService.get('DB_URL'),
-      migrationsRun: true,
-    };
+    if (process.env.NODE_ENV === 'development') {
+      return {
+        type: 'postgres',
+        database: 'test',
+        host: 'localhost',
+        port: 5432,
+        autoLoadEntities: true,
+        url: this.configService.get('DB_URL'),
+        migrationsRun: true,
+        synchronize: false,
+      };
+    } else {
+      return {
+        type: 'postgres',
+        database: 'test',
+        host: 'localhost',
+        port: 5432,
+        autoLoadEntities: true,
+        url: this.configService.get('DB_URL'),
+        migrationsRun: true,
+        synchronize: false,
+      };
+    }
   }
 }
