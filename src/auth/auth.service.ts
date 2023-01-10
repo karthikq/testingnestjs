@@ -61,8 +61,11 @@ export class AuthService {
     if (!checkGoogleUser) {
       await this.userService.createUser(user);
     }
-
-    return res.redirect('http://localhost:3000/?token=' + token);
+    if (process.env.NODE_ENV === 'development') {
+      return res.redirect('http://localhost:3000/?token=' + token);
+    } else {
+      return res.redirect('https://superbloger.netlify.app/?token=' + token);
+    }
   }
 
   async facebookLogin(user: any, res: any) {
@@ -79,6 +82,10 @@ export class AuthService {
       await this.userService.createUser(user);
     }
 
-    return res.redirect('http://localhost:3000/?token=' + token);
+    if (process.env.NODE_ENV === 'development') {
+      return res.redirect('http://localhost:3000/?token=' + token);
+    } else {
+      return res.redirect('https://superbloger.netlify.app/?token=' + token);
+    }
   }
 }
