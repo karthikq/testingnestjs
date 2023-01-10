@@ -20,7 +20,10 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         autoLoadEntities: true,
         url: this.configService.get('DB_URL'),
         migrationsRun: true,
-        synchronize: false,
+        synchronize: true,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       };
     } else {
       return {
@@ -32,6 +35,9 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         url: this.configService.get('DB_URL'),
         migrationsRun: true,
         synchronize: false,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       };
     }
   }
