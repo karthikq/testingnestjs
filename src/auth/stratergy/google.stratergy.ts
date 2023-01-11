@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-google-oauth2';
+import { backendUrl } from '../../config/backendUrl';
 
 @Injectable()
 export class GoogleStratergy extends PassportStrategy(Strategy, 'google') {
@@ -9,10 +10,7 @@ export class GoogleStratergy extends PassportStrategy(Strategy, 'google') {
     super({
       clientSecret: config.get('CLIENT_SECRET'),
       clientID: config.get('CLIENT_ID'),
-      callbackURL:
-        process.env.NODE_ENV === 'development'
-          ? 'http://localhost:5000/auth/google/cb'
-          : 'https://testingnestjs2.onrender.com/auth/google/cb',
+      callbackURL: backendUrl() + '/auth/google/cb',
       scope: ['email', 'profile'],
     });
   }

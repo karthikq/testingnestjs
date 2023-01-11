@@ -2,6 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { Strategy, Profile } from 'passport-facebook';
+import { backendUrl } from '../../config/backendUrl';
 
 @Injectable()
 export class FacebookStratergy extends PassportStrategy(Strategy, 'facebook') {
@@ -10,10 +11,7 @@ export class FacebookStratergy extends PassportStrategy(Strategy, 'facebook') {
       clientID: config.get('FB_CLIENT_ID'),
       clientSecret: config.get('FB_CLIENT_SECRET'),
       scope: 'email',
-      callbackURL:
-        process.env.NODE_ENV === 'development'
-          ? 'http://localhost:5000/auth/facebook/redirect'
-          : 'https://testingnestjs2.onrender.com/auth/facebook/redirect',
+      callbackURL: backendUrl() + '/auth/facebook/redirect',
       profileFields: ['id', 'displayName', 'photos', 'email'],
     });
   }
