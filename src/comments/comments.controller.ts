@@ -57,8 +57,6 @@ export class CommentsController {
     @Query() query: any,
     @Request() req: any,
   ) {
-    console.log(id, query);
-
     return this.commentsService.deleteComment(
       query.commentId,
       parseInt(id),
