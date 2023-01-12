@@ -35,6 +35,9 @@ export class Posts {
   @Column('text', { array: true, default: [] })
   images: string[];
 
+  @Column({ default: '' })
+  videoUrl: string;
+
   @CreateDateColumn({
     default: () => 'CURRENT_TIMESTAMP',
   })

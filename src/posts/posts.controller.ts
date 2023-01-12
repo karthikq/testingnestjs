@@ -41,10 +41,13 @@ export class PostsController {
     return this.postService.deletePost(id, req.user);
   }
 
-  
   @Patch('/:id')
   @UseGuards(JWTAuthGuard)
-  editPost(@Param('id') id: string, @Request() req: any,@Body() body:editPostDto) {
-    return this.postService.editPost(id, req.user,body);
+  editPost(
+    @Param('id') id: string,
+    @Request() req: any,
+    @Body() body: editPostDto,
+  ) {
+    return this.postService.editPost(id, req.user, body);
   }
 }
