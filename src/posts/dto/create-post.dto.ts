@@ -20,4 +20,7 @@ export class CreatePostDto {
 
   @IsArray()
   images: string[];
+
+  @IsString()
+  videoUrl: string;
 }

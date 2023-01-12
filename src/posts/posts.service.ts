@@ -31,7 +31,8 @@ export class PostsService {
       user: user,
       likes: [],
       comments: [],
-      date:new Date(),
+      date: new Date(),
+      videoUrl: body.videoUrl,
     });
 
     return this.repo.save(newPost);
@@ -78,16 +79,13 @@ export class PostsService {
     if (findPost.user.userId === user.userId) {
       findPost.likes.map(async (el) => {
         const deleteItem = await this.repoLikes.delete({ id: el.id });
-        console.log(deleteItem);
       });
 
       findPost.comments.map(async (el) => {
         const deleteItem = await this.repoComments.delete({ id: el.id });
-        console.log(deleteItem);
       });
 
       const updatePost = await this.repo.delete({ postId: id });
-      console.log(updatePost);
     } else {
       throw new BadRequestException('Not allowed');
     }
